@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+	<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+	<script type="text/javascript" src="script.js"></script>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<div id="container">
+	</div>
+</body>
+
+</html>
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<title> - jsFiddle demo by joshwertheim</title>
+
+	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+	<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+
+	<style type='text/css'>
+		body {
+			width: 100%;
+			min-height: 100%;
+		}
+
+		.square {
+			display: inline-block;
+			border: 1px solid black;
+			height: 100px;
+			width: 100px;
+			margin: 15px;
+			background: white;
+			position: relative;
+			z-index: 1;
+		}
+
+		.little-square {
+			display: inline-block;
+			border: 1px solid black;
+			height: 24px;
+			width: 24px;
+			background: green;
+			z-index: 2;
+			position: absolute;
+			right: -12px;
+			top: -12px;
+		}
+
+		#container {
+			width: 100%;
+			max-width: 500px;
+		}
+	</style>
+
+<script type='text/javascript'>//<![CDATA[ 
+	$(window).load(function(){
+		var squares = [];
+		var order = [];
+
+		for (var i = 1; i <= 3; i++) {
+			for (var j = 1; j <= 3; j++) {
+				var ident = "sqr" + i + "c" + j;
+				var sqr = "<div class=\"square\" id=\"" + ident + "\"></div>";
+				squares.push(sqr);
+			};
+
+		};
+
+		$('#container').append(squares);
+
+		$('#sqr2c2').css('border-color', 'white');
+		$('#sqr2c3').css('border-color', 'white');
+		$("<div class=\"little-square\" id=\"little\"></div>").appendTo("#sqr1c3");
+
+		var interval = null;
+		var noClick = false;
+
+		$("#container div[id*='sqr']").click(function(e) {
+			$(this).css("background", "blue");
+			order.push('#' + $(this).attr('id'));
+			if(order.length == 7) {
+				noClick = true;
+				$('#little').css('background', 'red');
+				document.addEventListener("click",handler,true);
+				interval = setInterval(trans, 1000);
+			}
+		});
+
+		function handler(e){
+			if(e.target.className=="square" && noClick == true) {
+				e.stopPropagation();
+				e.preventDefault();
+			}
+		}
+
+		function trans() { 
+			var last = order.pop();
+
+			$(last).css("background", "white");
+
+			if(order.length == 0) {
+				clearInterval(interval);
+				noClick = false;
+				$('#little').css('background', 'green');
+			}   
+		}
+});//]]>  
+
+</script>
+
+
+</head>
+<body>
+	<body>
+		<div id="container">
+
+		</div>
+	</body>
+
+
+</body>
+
+
+</html>
+
